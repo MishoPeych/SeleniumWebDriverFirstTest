@@ -1,13 +1,12 @@
 package Pages;
 
-import Base.BaseTest;
+import Base.BasePage;
 import Components.HeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class MyRequestPage extends BaseTest {
+public class MyRequestPage extends BasePage {
     private final HeaderComponent header;
 
     private static final By NEW_REQUEST_TITLE = By.xpath("//div[@role='row' and @data-rowindex='0']//div[@data-field='title']");
@@ -20,8 +19,7 @@ public class MyRequestPage extends BaseTest {
     private static final By CLICK_NEW_REQUEST = By.xpath("//*[@href='/citizen/requests/new']");
 
     public MyRequestPage(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait = wait;
+        super(driver, wait);
         this.header = new HeaderComponent(driver, wait);
     }
 
@@ -30,25 +28,16 @@ public class MyRequestPage extends BaseTest {
     }
 
     public String checkTitle() {
-        wait.until(ExpectedConditions.elementToBeClickable(NEW_REQUEST_TITLE));
-        String checkTitleMsg;
-        checkTitleMsg = driver.findElement(NEW_REQUEST_TITLE).getText();
-        return checkTitleMsg;
+        return getText(NEW_REQUEST_TITLE);
     }
 
     public String checkPriority() {
-        wait.until(ExpectedConditions.elementToBeClickable(NEW_PRIORITY));
-
-        String checkPriorityMsg;
-        checkPriorityMsg = driver.findElement(NEW_PRIORITY).getText();
-        return checkPriorityMsg;
-
+        return getText(NEW_PRIORITY);
     }
 
     public NewRequestPage clickNewRequest() {
-        driver.findElement(CLICK_NEW_REQUEST).click();
+        click(CLICK_NEW_REQUEST);
         return new NewRequestPage(driver, wait);
-
     }
-
 }
+
