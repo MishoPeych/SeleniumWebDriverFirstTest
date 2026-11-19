@@ -11,7 +11,6 @@ public class NewRequestTest extends BaseTest {
 
     @Test
     void submitNewRequest() {
-
         String message = new LoginPage(driver, wait)
                 .login("john@example.com", "password123")
                 .header()
@@ -20,20 +19,19 @@ public class NewRequestTest extends BaseTest {
 
         Assertions.assertEquals("Submit New Service Request", message, "User is not on New Request Page");
 
-        new NewRequestPage(driver, wait)
+        MyRequestPage myRequestPage = new NewRequestPage(driver, wait)
                 .inputBasicInformation("This is short Description", "This is the long description you ever seen in your life. So you are the best!")
                 .localDetails("zhk.'Druzhba 11, A, 23", "Dobrich", "9300", "No description")
                 .contactInformation("astoundtest10@gmail.com", "0883360633")
                 .additionalDetails()
                 .reviewAndSubmit();
 
-        String checkTitleMsg = new MyRequestPage(driver, wait).checkTitle();
+        String checkTitleMsg = myRequestPage.checkTitle();
+        String checkPriorityMsg = myRequestPage.checkPriority();
 
-        String checkPriorityMsg = new MyRequestPage(driver, wait)
-                .checkPriority();
-
-        Assertions.assertEquals("This is short Description", checkTitleMsg, "The new request was not successful!");
-        Assertions.assertEquals("High", checkPriorityMsg, "The Priority is incorrect");
+        Assertions.assertEquals(
+                "This is short Description", checkTitleMsg, "The new request was not successful!");
+        Assertions.assertEquals(
+                "High", checkPriorityMsg, "The Priority is incorrect");
     }
-
 }

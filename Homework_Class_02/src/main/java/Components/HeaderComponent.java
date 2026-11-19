@@ -1,5 +1,6 @@
 package Components;
 
+import Pages.LoginPage;
 import Pages.NewRequestPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,18 +20,22 @@ public class HeaderComponent {
     private static final By NEW_REQUEST_LINK = By.xpath("//header[@data-testid='cs-app-header']//*[@data-testid='cs-nav-new-request']");
     private static final By LANGUAGE_SWITCHER = By.xpath("//header[@data-testid='cs-app-header']//*[@data-testid='cs-language-switcher']");
     private static final By USER_MENU_BUTTON = By.xpath("//header[@data-testid='cs-app-header']//*[@data-testid='cs-user-menu-button']");
+    private static final By LOGOUT_BUTTON = By.xpath("//*[@data-testid='cs-user-menu-logout']");
 
     public HeaderComponent(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
-
     }
 
-    public NewRequestPage clickOnNewRequest(){
+    public NewRequestPage clickOnNewRequest() {
         wait.until(ExpectedConditions.elementToBeClickable(NEW_REQUEST_LINK)).click();
         //driver.findElement(NEW_REQUEST_LINK).click();
         return new NewRequestPage(driver, wait);
-
     }
 
+    public LoginPage logout() {
+        wait.until(ExpectedConditions.elementToBeClickable(USER_MENU_BUTTON)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(LOGOUT_BUTTON)).click();
+        return new LoginPage(driver, wait);
+    }
 }
